@@ -1,0 +1,44 @@
+{
+  "id": "05996614-cadf-46df-8341-750ec6be8068",
+  "name": "LOLLILAND-Solution",
+  "publisher": "LOLLILAND",
+  "version": "19.0.0.8",
+  "brief": "",
+  "description": "",
+  "privacyStatement": "",
+  "EULA": "",
+  "help": "",
+  "url": "",
+  "logo": "",
+  "dependencies": [
+    {
+      "appId": "fa77d6f1-9c9d-44be-a9c5-cbfa8109bd15",
+      "name": "Lolliland_BC",
+      "publisher": "Nexon Asia Pacific Pty Ltd",
+      "version": "1.0.0.51"
+
+    },
+    {
+      "appId": "276f374f-8cbe-4743-8f97-9b6db9825549",
+      "name": "ePDF",
+      "publisher": "Nexon Asia Pacific Pty. Ltd",
+      "version": "1.0.0.23"
+
+    }
+  ],
+  "screenshots": [],
+  "platform": "1.0.0.0",
+  "application": "19.0.0.0",
+  "idRanges": [
+    {
+      "from": 54500,
+      "to": 55000
+    }
+  ],
+  "resourceExposurePolicy": {
+    "allowDebugging": true,
+    "allowDownloadingSource": false,
+    "includeSourceInSymbolFile": false
+  },
+  "runtime": "8.0"
+}
