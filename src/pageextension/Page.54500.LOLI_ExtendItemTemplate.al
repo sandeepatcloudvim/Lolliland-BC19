@@ -17,16 +17,7 @@ pageextension 54500 ExtendItemTemplCard extends "Item Templ. Card"
 
 
         }
-        addbefore("Lead Time Calculation")
-        {
-            field("Replenishment System"; Rec."Replenishment System")
-            {
-                ApplicationArea = All;
-                Caption = 'Replenishment System';
-            }
 
-
-        }
         addafter("Put-away Template Code")
         {
             field("Put-away Unit of Measure Code"; Rec."LOLI_Put-away Unit of Measure")
