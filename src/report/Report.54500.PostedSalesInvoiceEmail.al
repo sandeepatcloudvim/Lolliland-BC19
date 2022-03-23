@@ -475,6 +475,8 @@ report 54500 "Sales Invoice Excel Lolliland"
 
                         trigger OnAfterGetRecord()
                         begin
+                            if "Sales Invoice Line".Quantity = 0 then
+                                CurrReport.Skip();
 
                             if recItem.Get("No.") then begin
                                 Clear(VarUnitCost);
