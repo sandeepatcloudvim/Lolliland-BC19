@@ -47,6 +47,38 @@ page 54501 "LOLI_Sales Order List"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Adjusted Profit';
                 }
+                field(LOLI_Volume; Rec."LOLI_Volume")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Volume';
+                }
+                field("LOLI_Gross Weight"; Rec."LOLI_Gross Weight")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Gross Weight';
+                }
+                field("LOLI_No. of Pallet Height"; Rec."LOLI_No. of Pallet Height")
+                {
+                    ApplicationArea = All;
+                    Caption = 'No. of Pallet Height';
+                    Visible = false;
+                }
+                field("LOLI_No. of Pallet Weight"; Rec."LOLI_No. of Pallet Weight")
+                {
+                    ApplicationArea = All;
+                    Caption = 'No. of Pallet Weight';
+                    Visible = false;
+                }
+                field("LOLI_Pallet Total"; Rec."LOLI_Pallet Total")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Pallet Total';
+                }
+                field("Ship-to County"; Rec."Ship-to County")
+                {
+                    ApplicationArea = All;
+                    Caption = 'State';
+                }
                 field(Amount; Rec.Amount)
                 {
                     ApplicationArea = Basic, Suite;
@@ -56,6 +88,11 @@ page 54501 "LOLI_Sales Order List"
                 {
                     ApplicationArea = Basic, Suite;
                     ToolTip = 'Specifies the total of the amounts, including VAT, on all the lines on the document.';
+                }
+                field("Location Code"; Rec."Location Code")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Location Code';
                 }
 
             }
@@ -862,6 +899,7 @@ page 54501 "LOLI_Sales Order List"
         i: Integer;
         PrevNo: Code[20];
         PrevTab: Option General,Invoicing,Shipping,Prepayment;
+        SalesRecv: Record "Sales & Receivables Setup";
     begin
         Clear(CustAmount);
         Clear(TotalAdjCostLCY);
@@ -877,6 +915,7 @@ page 54501 "LOLI_Sales Order List"
             SalesPost.GetSalesLines(Rec, TempSalesLine, i - 1);
             CLEAR(SalesPost);
             TempSalesLine.RESET;
+            SalesRecv.Get();
 
             SalesPost.SumSalesLinesTemp(
               Rec, TempSalesLine, i - 1, TotalSalesLine[i], TotalSalesLineLCY[i],
@@ -890,6 +929,28 @@ page 54501 "LOLI_Sales Order List"
 
         END;
         PrevTab := -1;
+
+        Rec."LOLI_Volume" := TotalSalesLine[1]."Unit Volume";
+        Rec."LOLI_Gross Weight" := TotalSalesLine[1]."Gross Weight";
+
+        if TotalSalesLine[1]."Unit Volume" > 0 then begin
+            if SalesRecv."LOLI_Pallet Volume Formula" <> 0 then
+                Rec."LOLI_No. of Pallet Height" := (TotalSalesLine[1]."Unit Volume" / SalesRecv."LOLI_Pallet Volume Formula")
+            else
+                Rec."LOLI_No. of Pallet Height" := (TotalSalesLine[1]."Unit Volume" / 2.9)
+        end;
+
+        if TotalSalesLine[1]."Gross Weight" > 0 then begin
+            if SalesRecv."LOLI_Pallet Weight Formula" <> 0 then
+                Rec."LOLI_No. of Pallet Weight" := (TotalSalesLine[1]."Gross Weight" / SalesRecv."LOLI_Pallet Weight Formula")
+            else
+                Rec."LOLI_No. of Pallet Weight" := (TotalSalesLine[1]."Gross Weight" / 1020)
+        end;
+
+        if (Rec."LOLI_No. of Pallet Height" <= Rec."LOLI_No. of Pallet Weight") then
+            Rec."LOLI_Pallet Total" := Rec."LOLI_No. of Pallet Weight"
+        else
+            Rec."LOLI_Pallet Total" := Rec."LOLI_No. of Pallet Height";
 
         Rec."LOLI_Adjusted Profit Amt" := AdjProfitLCY[1];
         Rec."LOLI_Adjusted Profit Per" := AdjProfitPct[1];

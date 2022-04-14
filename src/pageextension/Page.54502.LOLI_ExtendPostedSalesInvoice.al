@@ -14,6 +14,38 @@ pageextension 54502 "LOLI Posted Sales Invoice Ext." extends "Posted Sales Invoi
                 ToolTip = 'Specifies the value of the Adjusted Profit % field.';
                 ApplicationArea = All;
             }
+            field(LOLI_Volume; Rec."LOLI_Volume")
+            {
+                ApplicationArea = All;
+                Caption = 'Volume';
+            }
+            field("LOLI_Gross Weight"; Rec."LOLI_Gross Weight")
+            {
+                ApplicationArea = All;
+                Caption = 'Gross Weight';
+            }
+            field("LOLI_No. of Pallet Height"; Rec."LOLI_No. of Pallet Height")
+            {
+                ApplicationArea = All;
+                Caption = 'No. of Pallet Height';
+                Visible = false;
+            }
+            field("LOLI_No. of Pallet Weight"; Rec."LOLI_No. of Pallet Weight")
+            {
+                ApplicationArea = All;
+                Caption = 'No. of Pallet Weight';
+                Visible = false;
+            }
+            field("LOLI_Pallet Total"; Rec."LOLI_Pallet Total")
+            {
+                ApplicationArea = All;
+                Caption = 'Pallet Total';
+            }
+            field("Ship-to County"; Rec."Ship-to County")
+            {
+                ApplicationArea = All;
+                Caption = 'State';
+            }
         }
     }
 
@@ -30,6 +62,7 @@ pageextension 54502 "LOLI Posted Sales Invoice Ext." extends "Posted Sales Invoi
         CurrExchRate: Record "Currency Exchange Rate";
         AdjProfitLCY: Decimal;
         AdjProfitPct: Decimal;
+        SalesRecv: Record "Sales & Receivables Setup";
     begin
         Clear(SalesInvLine);
         Clear(CustAmount);
@@ -38,6 +71,7 @@ pageextension 54502 "LOLI Posted Sales Invoice Ext." extends "Posted Sales Invoi
         Clear(AdjProfitLCY);
         Clear(AdjProfitPct);
         if TaxArea.Get(Rec."Tax Area Code") then;
+        if SalesRecv.Get() then;
 
         if Rec."Currency Code" = '' then
             Currency.InitRoundingPrecision
@@ -64,6 +98,25 @@ pageextension 54502 "LOLI Posted Sales Invoice Ext." extends "Posted Sales Invoi
 
         Rec."LOLI_Adjusted Profit Amt" := AdjProfitLCY;
         Rec."LOLI_Adjusted Profit Per" := AdjProfitPct;
+
+        if SalesInvLine."Unit Volume" > 0 then begin
+            if SalesRecv."LOLI_Pallet Volume Formula" <> 0 then
+                Rec."LOLI_No. of Pallet Height" := (SalesInvLine."Unit Volume" / SalesRecv."LOLI_Pallet Volume Formula")
+            else
+                Rec."LOLI_No. of Pallet Height" := (SalesInvLine."Unit Volume" / 2.9)
+        end;
+
+        if SalesInvLine."Gross Weight" > 0 then begin
+            if SalesRecv."LOLI_Pallet Weight Formula" <> 0 then
+                Rec."LOLI_No. of Pallet Weight" := (SalesInvLine."Gross Weight" / SalesRecv."LOLI_Pallet Weight Formula")
+            else
+                Rec."LOLI_No. of Pallet Weight" := (SalesInvLine."Gross Weight" / 1020)
+        end;
+
+        if (Rec."LOLI_No. of Pallet Height" <= Rec."LOLI_No. of Pallet Weight") then
+            Rec."LOLI_Pallet Total" := Rec."LOLI_No. of Pallet Weight"
+        else
+            Rec."LOLI_Pallet Total" := Rec."LOLI_No. of Pallet Height";
     end;
 
     trigger OnAfterGetRecord()

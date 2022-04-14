@@ -27,18 +27,21 @@ pageextension 54501 ExtendPostedSalesInvoice extends "Posted Sales Invoice"
     var
         myInt: Integer;
         Cust: Record Customer;
-        SMTPMail: Codeunit "SMTP Mail";
-        EmailMessage: Codeunit "Email Message";
+
         ReportSelections: Record "Report Selections";
         FileName: Text;
         RecRef: RecordRef;
         XmlParameters: Text;
         EmailOutStream: OutStream;
         EmailInStream: InStream;
-        SMTPMailSetup: Record "SMTP Mail Setup";
+        SMTPMail: Codeunit Email;
+        SMTPMailSetup: Codeunit "Email Message";
         SendToList: List of [Text];
+        SendTo: Text[250];
         TempBlob: Codeunit "Temp Blob";
         SalesInvHeader: Record "Sales Invoice Header";
+        Subject: Text[250];
+        Body: Text[250];
         EmailSetupErr: Label 'There is no email setup in Customer card for the customer = %1';
         ConfirmMsg: Label 'Customer is set to receive sales invoice in Excel, Do you want to Send Sales Invoice in Excel?';
 
@@ -60,16 +63,22 @@ pageextension 54501 ExtendPostedSalesInvoice extends "Posted Sales Invoice"
 
             IF Cust."E-Mail" <> '' THEN BEGIN
                 SendToList.Add(Cust."E-Mail");
-                SMTPMailSetup.GET;
-                SMTPMail.CreateMessage(SMTPMailSetup."Send As",
-                                    SMTPMailSetup."User ID",
-                                    SendToList,
-                                    'Sales Invoice' + '_' + SalesInvHeader."No.", '');
 
-                SMTPMail.AppendBody('Please find your sales invoice. This is auto generated email. Please do not reply.');
-                SMTPMail.AppendBody(FORMAT('<br>'));
-                SMTPMail.AddAttachmentStream(EmailInStream, FileName);
-                SMTPMail.Send();
+                // SMTPMailSetup.GET;
+                // SMTPMail.CreateMessage(SMTPMailSetup."Send As",
+                //                     SMTPMailSetup."User ID",
+                //                     SendToList,
+                //                     'Sales Invoice' + '_' + SalesInvHeader."No.", '');
+
+                Body := 'Please find your sales invoice. This is auto generated email. Please do not reply.';
+                Subject := 'Sales Invoice' + '_' + SalesInvHeader."No.";
+                // SMTPMail.AppendBody(FORMAT('<br>'));
+                // SMTPMail.AddAttachmentStream(EmailInStream, FileName);
+                // SMTPMail.Send();
+                SMTPMailSetup.Create(SendToList, Subject, Body, true);
+                SMTPMailSetup.AddAttachment(FileName, '', EmailInStream);
+                SMTPMail.Send(SMTPMailSetup, Enum::"Email Scenario"::Default);
+
             end;
             RecRef.Close();
 

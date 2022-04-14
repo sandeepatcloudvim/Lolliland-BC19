@@ -22,6 +22,31 @@ tableextension 54501 "LOLI_ExtendSalesInvoiceHeader" extends "Sales Invoice Head
         {
             Caption = 'No. of Carton';
         }
+        field(54504; "LOLI_Volume"; Decimal)
+        {
+            Caption = 'Volume';
+            DataClassification = ToBeClassified;
+        }
+        field(54505; "LOLI_Gross Weight"; Decimal)
+        {
+            Caption = 'Weight';
+            DataClassification = ToBeClassified;
+        }
+        field(54506; "LOLI_No. of Pallet Height"; Decimal)
+        {
+            Caption = 'No. of Pallet Height';
+            DataClassification = ToBeClassified;
+        }
+        field(54507; "LOLI_No. of Pallet Weight"; Decimal)
+        {
+            Caption = 'No. of Pallet Weight';
+            DataClassification = ToBeClassified;
+        }
+        field(54508; "LOLI_Pallet Total"; Decimal)
+        {
+            Caption = 'Pallet Total';
+            DataClassification = ToBeClassified;
+        }
 
     }
 }

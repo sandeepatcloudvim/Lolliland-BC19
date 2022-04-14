@@ -1,0 +1,19 @@
+<Package xmlns="http://schemas.microsoft.com/navx/2015/manifest">
+  <App Id="276f374f-8cbe-4743-8f97-9b6db9825549" Name="ePDF" Publisher="Nexon Asia Pacific Pty. Ltd." Brief="" Description="" Version="1.0.0.23" CompatibilityId="0.0.0.0" PrivacyStatement="" EULA="" Help="" HelpBaseUrl="" ContextSensitiveHelpUrl="https://Lolliland_BC.com/help/" Url="" Logo="/logo/Nexon.jpg" Platform="16.0.0.0" Runtime="5.0" Target="Extension" ShowMyCode="False" />
+  <IdRanges>
+    <IdRange MinObjectId="50000" MaxObjectId="99999" />
+  </IdRanges>
+  <Dependencies>
+    <Dependency Id="63ca2fa4-4f03-4f2b-a480-172fef340d3f" Name="System Application" Publisher="Microsoft" MinVersion="16.0.0.0" CompatibilityId="0.0.0.0" />
+    <Dependency Id="437dbf0e-84ff-417a-965d-ed2bb9650972" Name="Base Application" Publisher="Microsoft" MinVersion="16.0.0.0" CompatibilityId="0.0.0.0" />
+    <Dependency Id="fa77d6f1-9c9d-44be-a9c5-cbfa8109bd15" Name="Lolliland_BC" Publisher="Nexon Asia Pacific Pty Ltd" MinVersion="1.0.0.25" CompatibilityId="0.0.0.0" />
+  </Dependencies>
+  <InternalsVisibleTo />
+  <ScreenShots />
+  <SupportedLocales />
+  <Features />
+  <PreprocessorSymbols />
+  <SuppressWarnings />
+  <ResourceExposurePolicy />
+  <KeyVaultUrls />
+</Package>
