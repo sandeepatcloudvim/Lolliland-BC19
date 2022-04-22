@@ -22,7 +22,7 @@ pageextension 54516 "LOLI_SalesOrderSubform" extends "Sales Order Subform"
 
                 if rec.Quantity > 0 then begin
                     Commit();
-                    if SalesInfoPaneMgt.CalcAvailability(Rec) < 0 then begin
+                    if SalesInfoPaneMgt.CalcAvailability(Rec) <= 0 then begin
                         ReturnReason.Reset();
                         ReturnReason.SetFilter(Code, '%1', 'OOS*');
                         if Page.RunModal(Page::"Return Reasons", ReturnReason) = Action::LookupOK then begin

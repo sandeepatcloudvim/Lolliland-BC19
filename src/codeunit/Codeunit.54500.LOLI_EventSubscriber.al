@@ -40,13 +40,15 @@ codeunit 54500 "LOLI_EventSubscriber"
         recSalesHeader.RESET;
         recSalesHeader.SETFILTER("Document Type", '%1', recSalesHeader."Document Type"::Order);
         recSalesHeader.SETRANGE("Sell-to Customer No.", Rec."Sell-to Customer No.");
-        recSalesHeader.SETRANGE("Order Date", CalculateBusinessBackDays(WorkDate() + 1), WORKDATE);
-        IF NOT recSalesHeader.FINDFIRST THEN
+        recSalesHeader.SetFilter("Order Date", '%1..%2', CalculateBusinessBackDays(WorkDate() + 1), WORKDATE);
+        IF NOT recSalesHeader.FindLast() THEN
             EXIT
         ELSE begin
-            if not (recSalesHeader.Status = recSalesHeader.Status::Open) then
-                recSalesHeader.Validate(Status, recSalesHeader.Status::Open);
-            Rec := recSalesHeader;
+            if Not Confirm('Already there is Sales order exist for this customer, do you want to create new one ?') then begin
+                if not (recSalesHeader.Status = recSalesHeader.Status::Open) then
+                    recSalesHeader.Validate(Status, recSalesHeader.Status::Open);
+                Rec := recSalesHeader;
+            end;
         end;
     end;
 
@@ -104,5 +106,12 @@ codeunit 54500 "LOLI_EventSubscriber"
             UNTIL BaseCalChange.NEXT = 0;
         Description := '';
     end;
+
+    [EventSubscriber(ObjectType::Report, report::"Get Source Documents", 'OnAfterSalesLineOnPreDataItem', '', true, true)]
+    local procedure CheckReasonCode(VAR SalesLine: Record "Sales Line"; OneHeaderCreated: Boolean; WhseShptHeader: Record "Warehouse Shipment Header"; WhseReceiptHeader: Record "Warehouse Receipt Header")
+    begin
+        SalesLine.SetRange("Return Reason Code", '');
+    end;
+
 
 }
