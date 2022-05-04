@@ -94,7 +94,12 @@ page 54501 "LOLI_Sales Order List"
                     ApplicationArea = All;
                     Caption = 'Location Code';
                 }
-
+                //AGT_DS_28012022++
+                field(Comments; Comments)
+                {
+                    ApplicationArea = all;
+                }
+                //AGT_DS_28042022--
             }
         }
         area(factboxes)
@@ -729,6 +734,8 @@ page 54501 "LOLI_Sales Order List"
     trigger OnAfterGetRecord()
     begin
         CalcAdjustProfit;
+        ShowComments();
+
     end;
 
     trigger OnAfterGetCurrRecord()
@@ -815,6 +822,8 @@ page 54501 "LOLI_Sales Order List"
         CanRequestApprovalForFlow: Boolean;
         CanCancelApprovalForFlow: Boolean;
         EnumSalesDocType: Enum "Sales Document Type";
+        Comments: Text;
+
 
     procedure ShowPreview()
     var
@@ -955,6 +964,18 @@ page 54501 "LOLI_Sales Order List"
         Rec."LOLI_Adjusted Profit Amt" := AdjProfitLCY[1];
         Rec."LOLI_Adjusted Profit Per" := AdjProfitPct[1];
 
+    end;
+
+    local procedure ShowComments()
+    var
+        SalesCommentLine_L: Record "Sales Comment Line";
+    begin
+        Clear(Comments);
+        SalesCommentLine_L.Reset();
+        SalesCommentLine_L.SetRange("Document Type", Rec."Document Type");
+        SalesCommentLine_L.SetRange("No.", Rec."No.");
+        If SalesCommentLine_L.FindFirst() then
+            Comments := SalesCommentLine_L.Comment;
     end;
 }
 
