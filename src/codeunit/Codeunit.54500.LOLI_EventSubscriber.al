@@ -35,19 +35,19 @@ codeunit 54500 "LOLI_EventSubscriber"
 
 
     //AGT_DS_21042022++
-    [EventSubscriber(ObjectType::Report, report::"Get Source Documents", 'OnAfterSalesLineOnPreDataItem', '', true, true)]
-    local procedure CheckReasonCode(VAR SalesLine: Record "Sales Line"; OneHeaderCreated: Boolean; WhseShptHeader: Record "Warehouse Shipment Header"; WhseReceiptHeader: Record "Warehouse Receipt Header")
-    begin
-        SalesLine.SetRange("Return Reason Code", '');
-    end;
-    //AGT_DS_21042022--
-    //AGT_DS_28042022++
-    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", 'OnCopyToTempLinesOnAfterSetFilters', '', true, true)]
-    local procedure OnCopyToTempLinesOnAfterSetFilters(var SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header")
-    var
-        ItemTempl: Record "Item Templ.";
-    begin
-        SalesLine.SetRange("Return Reason Code", '');
-    end;
-    //AGT_DS_28042022--
+    // [EventSubscriber(ObjectType::Report, report::"Get Source Documents", 'OnAfterSalesLineOnPreDataItem', '', true, true)]
+    // local procedure CheckReasonCode(VAR SalesLine: Record "Sales Line"; OneHeaderCreated: Boolean; WhseShptHeader: Record "Warehouse Shipment Header"; WhseReceiptHeader: Record "Warehouse Receipt Header")
+    // begin
+    //     SalesLine.SetRange("Return Reason Code", '');
+    // end;
+    // //AGT_DS_21042022--
+    // //AGT_DS_28042022++
+    // [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", 'OnCopyToTempLinesOnAfterSetFilters', '', true, true)]
+    // local procedure OnCopyToTempLinesOnAfterSetFilters(var SalesLine: Record "Sales Line"; SalesHeader: Record "Sales Header")
+    // var
+    //     ItemTempl: Record "Item Templ.";
+    // begin
+    //     SalesLine.SetRange("Return Reason Code", '');
+    // end;
+    // //AGT_DS_28042022--
 }
