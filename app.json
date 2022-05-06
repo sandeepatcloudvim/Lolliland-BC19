@@ -2,7 +2,7 @@
   "id": "05996614-cadf-46df-8341-750ec6be8068",
   "name": "LOLLILAND-Solution",
   "publisher": "LOLLILAND",
-  "version": "19.0.0.17",
+  "version": "19.0.0.18",
   "brief": "",
   "description": "",
   "privacyStatement": "",
@@ -22,7 +22,7 @@
       "appId": "276f374f-8cbe-4743-8f97-9b6db9825549",
       "name": "ePDF",
       "publisher": "Nexon Asia Pacific Pty. Ltd",
-      "version": "1.0.0.23"
+      "version": "1.0.0.24"
 
     }
   ],
