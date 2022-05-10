@@ -49,5 +49,15 @@ codeunit 54500 "LOLI_EventSubscriber"
     // begin
     //     SalesLine.SetRange("Return Reason Code", '');
     // end;
-    // //AGT_DS_28042022--
+    //AGT_DS_28042022--
+    //AGT_DS_10052022++
+    [EventSubscriber(ObjectType::Table, 38, 'OnBeforeInsertEvent', '', true, true)]
+    local procedure CreatePurchaseQuoteNo(VAR Rec: Record "Purchase Header"; RunTrigger: Boolean)
+    begin
+        COMMIT;
+        IF Rec."Quote No." <> '' THEN
+            Rec.AssistEdit(Rec);
+    end;
+    //AGT_DS_10052022--
+
 }
