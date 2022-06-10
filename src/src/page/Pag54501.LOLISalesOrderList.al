@@ -204,7 +204,7 @@ page 54501 "LOLI_Sales Order List"
                     var
                         WorkflowsEntriesBuffer: Record "Workflows Entries Buffer";
                     begin
-                        WorkflowsEntriesBuffer.RunWorkflowEntriesPage(Rec.RecordId, DATABASE::"Sales Header", Rec."Document Type".AsInteger(), Rec."No.");
+                        //   WorkflowsEntriesBuffer.RunWorkflowEntriesPage(Rec.RecordId, DATABASE::"Sales Header", Rec."Document Type".AsInteger(), Rec."No.");
                     end;
                 }
                 action("Co&mments")
